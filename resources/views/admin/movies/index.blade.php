@@ -7,6 +7,21 @@
 
 <body>
     <h1>Movies List</h1>
+
+
+    @if (session('success'))
+        <div>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div>
+            {{ session('error') }}
+        </div>
+    @endif
+
+
     <table border="1">
         <tr>
             <th>ID</th>
