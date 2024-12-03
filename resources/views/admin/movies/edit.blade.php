@@ -37,8 +37,8 @@
         </div>
         <div>
             <label for="is_showing">公開中かどうか</label>
-            <input type="hidden" name="is_showing" value="off">
-            <input type="checkbox" name="is_showing" id="is_showing" value="on" {{ old('is_showing') === 'on' ? 'checked' : '' }}>
+            <input type="checkbox" name="is_showing" id="is_showing" value="1" {{ old('is_showing') == 1 ? 'checked' : '' }}>
+            <input type="hidden" name="is_showing" value="0">
         </div>
         <div>
             <label for="description">概要</label>

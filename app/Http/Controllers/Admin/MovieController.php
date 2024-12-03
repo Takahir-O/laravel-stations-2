@@ -44,7 +44,8 @@ class MovieController extends Controller
         $movie->title = $request->input('title');
         $movie->image_url = $request->input('image_url');
         $movie->published_year = $request->input('published_year');
-        $movie->is_showing = $request->input('is_showing') === 'on'; // チェックボックスの値をbooleanに変換
+        // $movie->is_showing = $request->input('is_showing'); // チェックボックスの値をbooleanに変換
+        $movie->is_showing = $request->boolean('is_showing');
         $movie->description = $request->input('description');
         $movie->save();
 
@@ -78,7 +79,8 @@ class MovieController extends Controller
         $movie->title = $request->input('title');
         $movie->image_url = $request->input('image_url');
         $movie->published_year = $request->input('published_year');
-        $movie->is_showing = $request->input('is_showing') === 'on';
+        // $movie->is_showing = $request->input('is_showing');
+        $movie->is_showing = $request->boolean('is_showing');
         $movie->description = $request->input('description');
         $movie->save();
 
