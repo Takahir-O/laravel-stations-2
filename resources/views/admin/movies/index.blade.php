@@ -10,15 +10,15 @@
 
 
     @if (session('success'))
-        <div>
-            {{ session('success') }}
-        </div>
+    <div>
+        {{ session('success') }}
+    </div>
     @endif
 
     @if (session('error'))
-        <div>
-            {{ session('error') }}
-        </div>
+    <div>
+        {{ session('error') }}
+    </div>
     @endif
 
 
@@ -32,6 +32,7 @@
             <th>概要</th>
             <th>登録日時</th>
             <th>更新日時</th>
+            <th>操作</th>
         </tr>
         @foreach ($movies as $movie)
         <tr>
@@ -43,6 +44,13 @@
             <td>{{ $movie->description }}</td>
             <td>{{ $movie->created_at }}</td>
             <td>{{ $movie->updated_at }}</td>
+            <td>
+                <form action="{{ route('admin.movies.destroy', $movie->id) }}" method="POST" onsubmit="return confirm('「{{ $movie->title }}」を削除してもよろしいですか？\nこの操作は取り消せません。');">
+                    @csrf
+                    @method('delete')
+                    <button type="submit">削除</button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </table>

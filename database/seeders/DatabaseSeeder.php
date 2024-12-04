@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Movie::factory(10)->create();
+        // 既存のデータをクリア
+        Movie::truncate();
+
+        // 新しいデータをシード
+        Movie::factory(50)->create();
     }
 }
