@@ -26,7 +26,13 @@
             <label for="title">映画タイトル</label>
             <input type="text" name="title" id="title" value="{{old('title',$movie->title)}}">
         </div>
-
+        <div class="form-group">
+            <label for="genre">ジャンル</label>
+            <input type="text" name="genre" id="genre" class="form-control" value="{{ old('genre', $movie->genre->name) }}" required>
+            @error('genre')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
         <div>
             <label for="image_url">画像URL</label>
             <input type="text" name="image_url" id="image_url" value="{{ old('image_url', $movie->image_url) }}">

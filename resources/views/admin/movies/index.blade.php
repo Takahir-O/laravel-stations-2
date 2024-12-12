@@ -26,6 +26,7 @@
         <tr>
             <th>ID</th>
             <th>映画タイトル</th>
+            <th>ジャンル</th>
             <th>画像URL</th>
             <th>公開年</th>
             <th>上映中かどうか</th>
@@ -38,6 +39,7 @@
         <tr>
             <td>{{ $movie->id }}</td>
             <td>{{ $movie->title }}</td>
+            <td>{{ $movie->genre->name }}</td>
             <td>{{ $movie->image_url }}</td>
             <td>{{ $movie->published_year }}</td>
             <td>{{ $movie->is_showing ? '上映中' : '上映予定' }}</td>

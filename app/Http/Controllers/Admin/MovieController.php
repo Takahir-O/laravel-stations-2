@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log; // この行を追加
+
 
 class MovieController extends Controller
 {
@@ -33,23 +38,31 @@ class MovieController extends Controller
     {
         // リクエストの内容を受け取り、新しいMovieモデルを作成
         $request->validate([
-            'title' => 'required|string|max:255|unique:movies',
+            'title' => 'required|string|unique:movies',
             'image_url' => 'required|url',
             'published_year' => 'required|integer|min:1900|max:2100',
             'is_showing' => 'required',
             'description' => 'required|string|max:1000',
+            'genre' => 'required|string|max:255',
         ]);
 
-        $movie = new Movie();
-        $movie->title = $request->input('title');
-        $movie->image_url = $request->input('image_url');
-        $movie->published_year = $request->input('published_year');
-        // $movie->is_showing = $request->input('is_showing'); // チェックボックスの値をbooleanに変換
-        $movie->is_showing = $request->boolean('is_showing');
-        $movie->description = $request->input('description');
-        $movie->save();
+        try {
+            DB::transaction(function () use ($request) {
+                $genre = Genre::firstOrCreate(['name' => $request->input('genre')]);
 
-        return redirect()->route('admin.movies.index')->with('success', '新しい映画を登録しました');  // ドットを削除
+                Movie::create([
+                    'title' => $request->input('title'),
+                    'image_url' => $request->input('image_url'),
+                    'published_year' => $request->input('published_year'),
+                    'is_showing' => $request->boolean('is_showing'),
+                    'description' => $request->input('description'),
+                    'genre_id' => $genre->id,
+                ]);
+            });
+            return redirect()->route('admin.movies.index')->with('success', '新しい映画を登録しました');
+        } catch (\Exception $e) {
+            abort(500, '映画の登録に失敗しました');
+        }
     }
 
     // editアクションを追加
@@ -68,24 +81,32 @@ class MovieController extends Controller
 
         // バリデーション
         $request->validate([
-            'title' => 'required|string|max:255|unique:movies,title,' . $id,
+            'title' => 'required|string|unique:movies,title,' . $id,
             'image_url' => 'required|url',
             'published_year' => 'required|integer|min:1900|max:2100',
             'is_showing' => 'required',
             'description' => 'required|string|max:1000',
+            'genre' => 'required|string|max:255',
         ]);
 
-        // 属性を更新
-        $movie->title = $request->input('title');
-        $movie->image_url = $request->input('image_url');
-        $movie->published_year = $request->input('published_year');
-        // $movie->is_showing = $request->input('is_showing');
-        $movie->is_showing = $request->boolean('is_showing');
-        $movie->description = $request->input('description');
-        $movie->save();
+        try {
+            DB::transaction(function () use ($request, $movie) {
+                $genre = Genre::firstOrCreate(['name' => $request->input('genre')]);
 
-        return redirect()->route('admin.movies.index')->with('success', '映画情報を更新しました');
+                $movie->update([
+                    'title' => $request->input('title'),
+                    'image_url' => $request->input('image_url'),
+                    'published_year' => $request->input('published_year'),
+                    'is_showing' => $request->boolean('is_showing'),
+                    'description' => $request->input('description'),
+                    'genre_id' => $genre->id,
+                ]);
+            });
 
+            return redirect()->route('admin.movies.index')->with('success', '映画情報を更新しました');
+        } catch (\Exception $e) {
+            abort(500, '映画情報の更新に失敗しました');
+        }
     }
 
     public function destroy($id)

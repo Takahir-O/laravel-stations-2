@@ -15,9 +15,8 @@ class MovieController extends Controller
 
         // 公開状態による絞り込み
         // リクエストに'is_showing'パラメータが存在する場合、その値に基づいてフィルタリングします
-        if ($request->has('is_showing')) {
+        if ($request->has('is_showing') && $request->query('is_showing') !== 'all') {
             $isShowing = $request->query('is_showing');
-            // 'is_showing'カラムが指定された値と一致するレコードを取得
             $query->where('is_showing', (bool)$isShowing);
         }
 
