@@ -24,4 +24,10 @@ class Movie extends Model
     {
         return $this->belongsTo(Genre::class);
     }
+
+    // スケジュールとのリレーションを追加
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

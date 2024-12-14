@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Schedule;
 
 class MovieController extends Controller
 {
@@ -27,7 +28,7 @@ class MovieController extends Controller
             // クロージャを使用して、タイトルまたは概要にキーワードが含まれるレコードを取得
             $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'LIKE', "%{$keyword}%")
-                  ->orWhere('description', 'LIKE', "%{$keyword}%");
+                    ->orWhere('description', 'LIKE', "%{$keyword}%");
             });
         }
 
@@ -45,5 +46,14 @@ class MovieController extends Controller
 
         // 'movies.index' ビューを返し、パラメータを渡します
         return view('movies.index', $params);
+    }
+
+    public function show($id)
+    {
+        // 指定されたIDに対応する映画情報を取得
+        $movie = Movie::findOrFail($id);
+        $schedules = Schedule::where('movie_id', $id)->orderBy('start_time', 'asc')->get();
+
+        return view('movies.show', ['movie' => $movie, 'schedules' => $schedules]);
     }
 }

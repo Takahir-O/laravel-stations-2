@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
 
         // SheetsTableSeeder を呼び出す
         $this->call(SheetsTableSeeder::class);
+        $this->call([
+            ScheduleSeeder::class,
+        ]);
 
         // 新しいデータをシード
         Movie::factory(50)->create();
