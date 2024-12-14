@@ -15,5 +15,6 @@ class ScheduleController extends Controller
         // Scheduleモデルを使用して、全てのスケジュールを取得。グループ化する
         $schedules = Schedule::with('movie')->get()->groupBy('movie_id');
         return view('admin.schedules.index', ['schedules' => $schedules]);
+        
     }
 }
