@@ -65,9 +65,11 @@
                 @foreach($movieSchedules as $schedule)
                 <li class="list-group-item">
                     <a href="{{ route('admin.schedules.show', $schedule->id) }}">
-                        開始時刻: {{ $schedule->start_time->format('Y-m-d H:i') }} -
-                        終了時刻: {{ $schedule->end_time->format('Y-m-d H:i') }}
+                        開始時刻: {{ $schedule->start_time->format('H:i') }} -
+                        終了時刻: {{ $schedule->end_time->format('H:i') }}
                     </a>
+                    <!-- 作成日時、更新日時を表示する -->
+                    <small class="text-muted">作成日時: {{ $schedule->created_at->format('H:i') }} - 更新日時: {{ $schedule->updated_at->format('Y-m-d H:i') }}</small>
                 </li>
                 @endforeach
             </ul>

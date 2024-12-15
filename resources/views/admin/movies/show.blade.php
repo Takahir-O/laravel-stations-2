@@ -15,6 +15,11 @@
     <p>概要: {{ $movie->description }}</p>
     <p>登録日時: {{ $movie->created_at }}</p>
     <p>更新日時: {{ $movie->updated_at }}</p>
+    @foreach($movie->schedules as $schedule)
+    <a href="{{ route('admin.schedules.show', $schedule->id) }}">
+        開始時刻: {{ $schedule->start_time }} - 終了時刻: {{ $schedule->end_time }}
+    </a><br>
+    @endforeach
 </body>
 
 </html>
