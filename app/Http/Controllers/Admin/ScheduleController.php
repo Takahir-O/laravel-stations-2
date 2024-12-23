@@ -8,7 +8,7 @@ use App\Models\Movie;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log; // この行を追加
+use Illuminate\Support\Facades\Log; 
 
 class ScheduleController extends Controller
 {
@@ -53,8 +53,8 @@ class ScheduleController extends Controller
         }
 
         // 開始日時と終了日時を作成
-        $startDateTime = $request->start_time_date . ' ' . $request->start_time_time;
-        $endDateTime = $request->end_time_date . ' ' . $request->end_time_time;
+        $startDateTime = $request->start_time_date . ' ' . $request-> start_time_time;
+        $endDateTime = $request->end_time_date . ' ' . $request-> end_time_time;
 
         // Carbon を使用して日時を比較
         $startTime = Carbon::createFromFormat('Y-m-d H:i', $startDateTime);
@@ -130,8 +130,8 @@ class ScheduleController extends Controller
             ]
         );
 
-        $startTime = $request->start_time_date . ' ' . $request->start_time_time . ':00';
-        $endTime = $request->end_time_date . ' ' . $request->end_time_time . ':00';
+        // $startTime = $request->start_time_date . ' ' . $request->start_time_time . ':00';
+        // $endTime = $request->end_time_date . ' ' . $request->end_time_time . ':00';
 
         // 開始日時と終了日時を作成
         $startDateTime = $request->start_time_date . ' ' . $request->start_time_time;
@@ -141,7 +141,7 @@ class ScheduleController extends Controller
         $startTime = Carbon::createFromFormat('Y-m-d H:i', $startDateTime);
         $endTime = Carbon::createFromFormat('Y-m-d H:i', $endDateTime);
 
-        if ($startTime->diffInMinutes($endTime) < 5) {
+        if ($startTime->diffInMinutes($endTime) < 6 ) {
             return redirect()
                 ->back()
                 ->withErrors(['start_time_time' => '開始日時と終了日時の差は5分以上にしてください。'])

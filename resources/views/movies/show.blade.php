@@ -23,11 +23,17 @@
         <tr>
             <th>上映開始時刻</th>
             <th>上映終了時刻</th>
+            <th>予約</th> <!-- 予約の列を追加 -->
         </tr>
         @foreach ($schedules as $schedule)
         <tr>
             <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</td>
             <td>{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</td>
+            <td>
+                <a href="{{ url('/movies/' . $movie->id . '/schedules/' . $schedule->id . '/sheets?date=' . \Carbon\Carbon::today()->toDateString()) }}">
+                    座席を予約する
+                </a>
+            </td>
         </tr>
         @endforeach
     </table>
