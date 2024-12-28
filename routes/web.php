@@ -35,6 +35,5 @@ Route::prefix('admin')->group(function(){
     Route::delete('/schedules/{id}/destroy',[ScheduleController::class,'destroy'])->name('admin.schedules.destroy');
 
 
-
 });
 
