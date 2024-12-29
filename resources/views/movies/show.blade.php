@@ -28,7 +28,7 @@
         @foreach ($schedules as $schedule)
         <tr>
             <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}</td>
-            <td>{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</td>
+            <td>{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}</td >
             <td>
                 <a href="{{ url('/movies/' . $movie->id . '/schedules/' . $schedule->id . '/sheets?date=' . \Carbon\Carbon::today()->toDateString()) }}">
                     座席を予約する
